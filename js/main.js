@@ -3,17 +3,13 @@
    Uzair & Maisara | January 31st, 2026
    ======================================== */
 
-// Register GSAP ScrollTrigger
-gsap.registerPlugin(ScrollTrigger);
-
 // ========================================
 // CONFIGURATION
 // ========================================
 const CONFIG = {
-    eventDate: new Date('2026-01-31T19:00:00').getTime(),
     particleConfig: {
         particles: {
-            number: { value: 50, density: { enable: true, value_area: 800 } },
+            number: { value: 40, density: { enable: true, value_area: 800 } },
             color: { value: ["#d4af37", "#f0d77a", "#b8962e"] },
             shape: { type: "circle" },
             opacity: { 
@@ -28,7 +24,7 @@ const CONFIG = {
             },
             move: {
                 enable: true,
-                speed: 0.8,
+                speed: 0.6,
                 direction: "none",
                 random: true,
                 straight: false,
@@ -57,14 +53,6 @@ const CONFIG = {
 const elements = {
     overlay: document.getElementById('openingOverlay'),
     mainContent: document.getElementById('mainContent'),
-    countdown: {
-        days: document.getElementById('days'),
-        hours: document.getElementById('hours'),
-        minutes: document.getElementById('minutes'),
-        seconds: document.getElementById('seconds')
-    },
-    rsvpButton: document.getElementById('rsvpButton'),
-    rsvpConfirmed: document.getElementById('rsvpConfirmed'),
     confettiCanvas: document.getElementById('confettiCanvas')
 };
 
@@ -90,19 +78,15 @@ function initOpeningAnimation() {
     overlay.addEventListener('touchstart', openEnvelope, { passive: true });
     
     function openEnvelope(e) {
-        // Prevent double-triggering
         if (hasOpened) return;
         hasOpened = true;
-        
-        // Disable scrolling during animation
-        document.body.classList.add('animating');
         
         overlay.classList.add('opening');
         
         // Animate overlay out
         gsap.to(overlay, {
             opacity: 0,
-            duration: 1,
+            duration: 1.2,
             delay: 0.8,
             ease: 'power2.inOut',
             onComplete: () => {
@@ -120,203 +104,94 @@ function revealContent() {
     const content = elements.mainContent;
     content.classList.add('visible');
     
-    // Set initial states
+    // Set initial states - all hidden
     gsap.set('.decorative-top', { opacity: 0, scale: 0.5 });
-    gsap.set('.family-intro', { opacity: 0, y: 30 });
-    gsap.set('.pre-title', { opacity: 0, y: 30 });
-    gsap.set('.event-title', { opacity: 0, y: 40 });
-    gsap.set('.name-1', { opacity: 0, y: 60 });
+    gsap.set('.family-intro', { opacity: 0, y: 20 });
+    gsap.set('.pre-title', { opacity: 0, y: 20 });
+    gsap.set('.event-title', { opacity: 0, y: 30 });
+    gsap.set('.of-text', { opacity: 0 });
+    gsap.set('.name-1', { opacity: 0, y: 40 });
     gsap.set('.ampersand', { opacity: 0, scale: 0 });
-    gsap.set('.name-2', { opacity: 0, y: 60 });
-    gsap.set('.invitation-message', { opacity: 0, y: 40 });
-    gsap.set('.decorative-divider', { opacity: 0, scale: 0 });
+    gsap.set('.name-2', { opacity: 0, y: 40 });
+    gsap.set('.elegant-divider', { opacity: 0, scale: 0 });
+    gsap.set('.event-details', { opacity: 0, y: 20 });
+    gsap.set('.blessing', { opacity: 0 });
+    gsap.set('.footer-ornament', { opacity: 0, scale: 0 });
     
-    // Main timeline - SLOWER animations, sequential appearance
+    // Main timeline - elegant, smooth reveal
     const tl = gsap.timeline({ 
         defaults: { ease: 'power2.out' },
         onComplete: () => {
-            // Re-enable scrolling after animation completes
-            document.body.classList.remove('animating');
+            // Ensure all elements stay visible
+            gsap.set(['.decorative-top', '.family-intro', '.pre-title', '.event-title', '.of-text', '.name-1', '.ampersand', '.name-2', '.elegant-divider', '.event-details', '.blessing', '.footer-ornament'], { opacity: 1 });
             
-            // Ensure all elements stay visible - force final state
-            gsap.set('.decorative-top', { opacity: 1, scale: 1 });
-            gsap.set('.family-intro', { opacity: 1, y: 0 });
-            gsap.set('.pre-title', { opacity: 1, y: 0 });
-            gsap.set('.event-title', { opacity: 1, y: 0 });
-            gsap.set('.name-1', { opacity: 1, y: 0 });
-            gsap.set('.ampersand', { opacity: 1, scale: 1 });
-            gsap.set('.name-2', { opacity: 1, y: 0 });
-            gsap.set('.invitation-message', { opacity: 1, y: 0 });
-            gsap.set('.decorative-divider', { opacity: 1, scale: 1 });
-            
-            // Initialize scroll animations after reveal completes
-            initScrollAnimations();
+            // Trigger confetti
+            createConfetti();
         }
     });
     
-    // Slow, elegant reveal - each element gets proper time to appear
+    // Slow, elegant reveal sequence
     tl.to('.decorative-top', {
         opacity: 1,
         scale: 1,
-        duration: 1.5
+        duration: 1.2
     })
     .to('.family-intro', {
         opacity: 1,
         y: 0,
-        duration: 1.5
-    }, '-=0.5')
+        duration: 1.2
+    }, '-=0.6')
     .to('.pre-title', {
         opacity: 1,
         y: 0,
-        duration: 1.2
-    }, '-=0.3')
+        duration: 1
+    }, '-=0.6')
     .to('.event-title', {
         opacity: 1,
         y: 0,
-        duration: 1.8
-    }, '-=0.3')
+        duration: 1.4
+    }, '-=0.5')
+    .to('.of-text', {
+        opacity: 1,
+        duration: 0.8
+    }, '-=0.6')
     .to('.name-1', {
         opacity: 1,
         y: 0,
-        duration: 2
-    }, '-=0.5')
+        duration: 1.5
+    }, '-=0.4')
     .to('.ampersand', {
         opacity: 1,
         scale: 1,
-        duration: 1.2,
+        duration: 1,
         ease: 'back.out(1.2)'
     }, '-=1')
     .to('.name-2', {
         opacity: 1,
         y: 0,
-        duration: 2
-    }, '-=0.8')
-    .to('.invitation-message', {
-        opacity: 1,
-        y: 0,
         duration: 1.5
-    }, '-=0.5')
-    .to('.decorative-divider', {
-        opacity: 1,
+    }, '-=0.8')
+    .to('.elegant-divider', {
+        opacity: 0.8,
         scale: 1,
-        duration: 1,
+        duration: 0.8,
         ease: 'back.out(1.2)'
-    }, '-=0.3');
-}
-
-// ========================================
-// SCROLL-TRIGGERED ANIMATIONS
-// ========================================
-function initScrollAnimations() {
-    // Detail cards
-    gsap.utils.toArray('.detail-card').forEach((card, i) => {
-        gsap.to(card, {
-            opacity: 1,
-            y: 0,
-            duration: 0.8,
-            delay: i * 0.15,
-            ease: 'power3.out',
-            scrollTrigger: {
-                trigger: card,
-                start: 'top 85%',
-                toggleActions: 'play none none reverse'
-            }
-        });
-    });
-    
-    // Countdown title
-    gsap.to('.countdown-title', {
+    }, '-=0.6')
+    .to('.event-details', {
         opacity: 1,
         y: 0,
-        duration: 0.8,
-        scrollTrigger: {
-            trigger: '.countdown-section',
-            start: 'top 80%',
-            toggleActions: 'play none none reverse'
-        }
-    });
-    
-    // Countdown items
-    gsap.utils.toArray('.countdown-item').forEach((item, i) => {
-        gsap.to(item, {
-            opacity: 1,
-            scale: 1,
-            duration: 0.6,
-            delay: i * 0.1,
-            ease: 'back.out(1.7)',
-            scrollTrigger: {
-                trigger: '.countdown-timer',
-                start: 'top 85%',
-                toggleActions: 'play none none reverse'
-            }
-        });
-    });
-    
-    // RSVP section
-    gsap.to('.rsvp-title', {
+        duration: 1
+    }, '-=0.4')
+    .to('.blessing', {
         opacity: 1,
+        duration: 1
+    }, '-=0.5')
+    .to('.footer-ornament', {
+        opacity: 0.8,
+        scale: 1,
         duration: 0.8,
-        scrollTrigger: {
-            trigger: '.rsvp-section',
-            start: 'top 80%',
-            toggleActions: 'play none none reverse'
-        }
-    });
-    
-    gsap.to('.rsvp-button', {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        delay: 0.2,
-        scrollTrigger: {
-            trigger: '.rsvp-section',
-            start: 'top 80%',
-            toggleActions: 'play none none reverse'
-        }
-    });
-    
-    // Footer
-    gsap.to('.invitation-footer', {
-        opacity: 1,
-        duration: 1,
-        scrollTrigger: {
-            trigger: '.invitation-footer',
-            start: 'top 90%',
-            toggleActions: 'play none none reverse'
-        }
-    });
-}
-
-// ========================================
-// COUNTDOWN TIMER
-// ========================================
-function updateCountdown() {
-    const now = Date.now();
-    const distance = CONFIG.eventDate - now;
-    
-    if (distance < 0) {
-        // Event has started or passed
-        elements.countdown.days.textContent = '00';
-        elements.countdown.hours.textContent = '00';
-        elements.countdown.minutes.textContent = '00';
-        elements.countdown.seconds.textContent = '00';
-        return;
-    }
-    
-    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-    
-    elements.countdown.days.textContent = String(days).padStart(2, '0');
-    elements.countdown.hours.textContent = String(hours).padStart(2, '0');
-    elements.countdown.minutes.textContent = String(minutes).padStart(2, '0');
-    elements.countdown.seconds.textContent = String(seconds).padStart(2, '0');
-}
-
-function startCountdown() {
-    updateCountdown();
-    setInterval(updateCountdown, 1000);
+        ease: 'back.out(1.2)'
+    }, '-=0.4');
 }
 
 // ========================================
@@ -331,9 +206,8 @@ function createConfetti() {
     
     const confettiPieces = [];
     const colors = ['#d4af37', '#f0d77a', '#b8962e', '#722f37', '#faf8f5'];
-    const confettiCount = 150;
+    const confettiCount = 100;
     
-    // Create confetti pieces
     for (let i = 0; i < confettiCount; i++) {
         confettiPieces.push({
             x: Math.random() * canvas.width,
@@ -348,9 +222,8 @@ function createConfetti() {
         });
     }
     
-    let animationFrame;
     let startTime = Date.now();
-    const duration = 4000; // 4 seconds
+    const duration = 3000;
     
     function animate() {
         const elapsed = Date.now() - startTime;
@@ -371,7 +244,6 @@ function createConfetti() {
             ctx.fillRect(-piece.w / 2, -piece.h / 2, piece.w, piece.h);
             ctx.restore();
             
-            // Reset if off screen
             if (piece.y > canvas.height + 20) {
                 piece.y = -20;
                 piece.x = Math.random() * canvas.width;
@@ -379,42 +251,13 @@ function createConfetti() {
         });
         
         if (progress < 1) {
-            animationFrame = requestAnimationFrame(animate);
+            requestAnimationFrame(animate);
         } else {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
         }
     }
     
     animate();
-    
-    // Handle resize
-    window.addEventListener('resize', () => {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-    });
-}
-
-// ========================================
-// RSVP BUTTON HANDLER
-// ========================================
-function initRSVP() {
-    const button = elements.rsvpButton;
-    const confirmed = elements.rsvpConfirmed;
-    
-    button.addEventListener('click', () => {
-        // Add click animation
-        gsap.to(button, {
-            scale: 0.95,
-            duration: 0.1,
-            yoyo: true,
-            repeat: 1,
-            onComplete: () => {
-                button.classList.add('hidden');
-                confirmed.classList.add('visible');
-                createConfetti();
-            }
-        });
-    });
 }
 
 // ========================================
@@ -423,11 +266,9 @@ function initRSVP() {
 document.addEventListener('DOMContentLoaded', () => {
     initParticles();
     initOpeningAnimation();
-    startCountdown();
-    initRSVP();
 });
 
-// Handle window resize for particles
+// Handle window resize
 window.addEventListener('resize', () => {
     if (elements.confettiCanvas) {
         elements.confettiCanvas.width = window.innerWidth;
