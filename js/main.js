@@ -133,6 +133,18 @@ function revealContent() {
         opacity: 1,
         duration: 0.5
     }, '<')
+    .from('.event-title', {
+        opacity: 0,
+        y: 30,
+        scale: 0.9,
+        duration: 0.8
+    }, '-=0.2')
+    .to('.event-title', {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        duration: 0.8
+    }, '<')
     .from('.name-1', {
         opacity: 0,
         y: 50,
