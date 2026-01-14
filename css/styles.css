@@ -194,7 +194,7 @@ body.animating {
     display: flex;
     align-items: center;
     gap: var(--spacing-sm);
-    margin-bottom: var(--spacing-md);
+    margin-bottom: var(--spacing-sm);
     opacity: 0;
 }
 
@@ -215,7 +215,7 @@ body.animating {
     font-style: italic;
     color: var(--color-text-muted);
     letter-spacing: 0.15em;
-    margin-bottom: var(--spacing-md);
+    margin-bottom: var(--spacing-sm);
     opacity: 0;
 }
 
