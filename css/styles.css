@@ -74,8 +74,8 @@ body {
 
 .envelope {
     position: relative;
-    width: min(320px, 85vw);
-    height: min(220px, 55vw);
+    width: min(240px, 70vw);
+    height: min(160px, 45vw);
     perspective: 1000px;
 }
 
