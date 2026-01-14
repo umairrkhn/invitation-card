@@ -194,7 +194,7 @@ body.animating {
     display: flex;
     align-items: center;
     gap: var(--spacing-sm);
-    margin-bottom: var(--spacing-sm);
+    margin-bottom: var(--spacing-xs);
     opacity: 0;
 }
 
@@ -207,6 +207,17 @@ body.animating {
 .ornament-symbol {
     color: var(--color-gold);
     font-size: 1.5rem;
+}
+
+.family-intro {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 5vw, 2.5rem);
+    background: var(--gradient-gold);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: var(--spacing-xs);
+    opacity: 0;
 }
 
 .pre-title {

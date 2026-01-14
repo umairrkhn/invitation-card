@@ -122,6 +122,7 @@ function revealContent() {
     
     // Set initial states with will-change for GPU acceleration
     gsap.set('.decorative-top', { opacity: 0, scale: 0.5, willChange: 'transform, opacity' });
+    gsap.set('.family-intro', { opacity: 0, y: 20, willChange: 'transform, opacity' });
     gsap.set('.pre-title', { opacity: 0, y: 20, willChange: 'transform, opacity' });
     gsap.set('.event-title', { opacity: 0, y: 30, willChange: 'transform, opacity' });
     gsap.set('.name-1', { opacity: 0, y: 50, willChange: 'transform, opacity' });
@@ -137,7 +138,7 @@ function revealContent() {
             // Re-enable scrolling after animation completes
             document.body.classList.remove('animating');
             // Clear will-change to free up resources
-            gsap.set(['.decorative-top', '.pre-title', '.event-title', '.name-1', '.ampersand', '.name-2', '.invitation-message', '.decorative-divider'], { willChange: 'auto' });
+            gsap.set(['.decorative-top', '.family-intro', '.pre-title', '.event-title', '.name-1', '.ampersand', '.name-2', '.invitation-message', '.decorative-divider'], { willChange: 'auto' });
             // Initialize scroll animations after reveal completes
             initScrollAnimations();
         }
@@ -149,12 +150,18 @@ function revealContent() {
         duration: 0.8,
         ease: 'power2.out'
     })
-    .to('.pre-title', {
+    .to('.family-intro', {
         opacity: 1,
         y: 0,
         duration: 0.7,
         ease: 'power2.out'
     }, '-=0.4')
+    .to('.pre-title', {
+        opacity: 1,
+        y: 0,
+        duration: 0.6,
+        ease: 'power2.out'
+    }, '-=0.3')
     .to('.event-title', {
         opacity: 1,
         y: 0,
