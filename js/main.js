@@ -84,11 +84,19 @@ async function initParticles() {
 // ========================================
 function initOpeningAnimation() {
     const overlay = elements.overlay;
+    let hasOpened = false;
     
     overlay.addEventListener('click', openEnvelope);
     overlay.addEventListener('touchstart', openEnvelope, { passive: true });
     
-    function openEnvelope() {
+    function openEnvelope(e) {
+        // Prevent double-triggering
+        if (hasOpened) return;
+        hasOpened = true;
+        
+        // Disable scrolling during animation
+        document.body.classList.add('animating');
+        
         overlay.classList.add('opening');
         
         // Animate overlay out
@@ -112,94 +120,78 @@ function revealContent() {
     const content = elements.mainContent;
     content.classList.add('visible');
     
-    // Main timeline for hero section
-    const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+    // Set initial states with will-change for GPU acceleration
+    gsap.set('.decorative-top', { opacity: 0, scale: 0.5, willChange: 'transform, opacity' });
+    gsap.set('.pre-title', { opacity: 0, y: 20, willChange: 'transform, opacity' });
+    gsap.set('.event-title', { opacity: 0, y: 30, willChange: 'transform, opacity' });
+    gsap.set('.name-1', { opacity: 0, y: 50, willChange: 'transform, opacity' });
+    gsap.set('.ampersand', { opacity: 0, scale: 0, rotation: -180, willChange: 'transform, opacity' });
+    gsap.set('.name-2', { opacity: 0, y: 50, willChange: 'transform, opacity' });
+    gsap.set('.invitation-message', { opacity: 0, y: 30, willChange: 'transform, opacity' });
+    gsap.set('.decorative-divider', { opacity: 0, scale: 0, willChange: 'transform, opacity' });
     
-    tl.from('.decorative-top', {
-        opacity: 0,
-        scale: 0.5,
-        duration: 0.8
-    })
-    .to('.decorative-top', {
+    // Main timeline with smoother cubic-bezier easing
+    const tl = gsap.timeline({ 
+        defaults: { ease: 'power3.out' },
+        onComplete: () => {
+            // Re-enable scrolling after animation completes
+            document.body.classList.remove('animating');
+            // Clear will-change to free up resources
+            gsap.set(['.decorative-top', '.pre-title', '.event-title', '.name-1', '.ampersand', '.name-2', '.invitation-message', '.decorative-divider'], { willChange: 'auto' });
+            // Initialize scroll animations after reveal completes
+            initScrollAnimations();
+        }
+    });
+    
+    tl.to('.decorative-top', {
         opacity: 1,
-        duration: 0.5
-    }, '<')
-    .from('.pre-title', {
-        opacity: 0,
-        y: 20,
-        duration: 0.6
-    }, '-=0.3')
+        scale: 1,
+        duration: 0.8,
+        ease: 'power2.out'
+    })
     .to('.pre-title', {
         opacity: 1,
-        duration: 0.5
-    }, '<')
-    .from('.event-title', {
-        opacity: 0,
-        y: 30,
-        scale: 0.9,
-        duration: 0.8
-    }, '-=0.2')
+        y: 0,
+        duration: 0.7,
+        ease: 'power2.out'
+    }, '-=0.4')
     .to('.event-title', {
         opacity: 1,
         y: 0,
-        scale: 1,
-        duration: 0.8
-    }, '<')
-    .from('.name-1', {
-        opacity: 0,
-        y: 50,
-        duration: 0.8
-    }, '-=0.2')
+        duration: 0.9,
+        ease: 'power2.out'
+    }, '-=0.3')
     .to('.name-1', {
         opacity: 1,
         y: 0,
-        duration: 0.8
-    }, '<')
-    .from('.ampersand', {
-        opacity: 0,
-        scale: 0,
-        rotation: -180,
-        duration: 0.6
-    }, '-=0.4')
+        duration: 1,
+        ease: 'power2.out'
+    }, '-=0.5')
     .to('.ampersand', {
         opacity: 1,
         scale: 1,
         rotation: 0,
-        duration: 0.6
-    }, '<')
-    .from('.name-2', {
-        opacity: 0,
-        y: 50,
-        duration: 0.8
-    }, '-=0.3')
+        duration: 0.7,
+        ease: 'back.out(1.2)'
+    }, '-=0.6')
     .to('.name-2', {
         opacity: 1,
         y: 0,
-        duration: 0.8
-    }, '<')
-    .from('.invitation-message', {
-        opacity: 0,
-        y: 30,
-        duration: 0.8
-    }, '-=0.4')
+        duration: 1,
+        ease: 'power2.out'
+    }, '-=0.5')
     .to('.invitation-message', {
         opacity: 1,
         y: 0,
-        duration: 0.8
-    }, '<')
-    .from('.decorative-divider', {
-        opacity: 0,
-        scale: 0,
-        duration: 0.5
-    }, '-=0.3')
+        duration: 0.8,
+        ease: 'power2.out'
+    }, '-=0.5')
     .to('.decorative-divider', {
         opacity: 1,
         scale: 1,
-        duration: 0.5
-    }, '<');
-    
-    // Initialize scroll animations after reveal
-    initScrollAnimations();
+        duration: 0.6,
+        ease: 'back.out(1.2)'
+    }, '-=0.3');
 }
 
 // ========================================

@@ -56,6 +56,16 @@ body {
     line-height: 1.6;
 }
 
+body.animating {
+    overflow: hidden !important;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    touch-action: none;
+}
+
 /* Particle Background */
 #particles-js {
     position: fixed;
@@ -213,14 +223,12 @@ body {
     font-family: var(--font-display);
     font-size: clamp(2.5rem, 8vw, 5rem);
     font-weight: 400;
-    background: var(--gradient-gold);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: var(--color-cream-soft);
     letter-spacing: 0.02em;
     margin-bottom: var(--spacing-sm);
     opacity: 0;
     transform: translateY(20px);
+    text-shadow: 0 2px 20px rgba(212, 175, 55, 0.3);
 }
 
 .couple-names {
