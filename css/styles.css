@@ -195,7 +195,6 @@ body.animating {
     align-items: center;
     gap: var(--spacing-sm);
     margin-bottom: var(--spacing-xs);
-    opacity: 0;
 }
 
 .ornament-line {
@@ -217,7 +216,6 @@ body.animating {
     -webkit-text-fill-color: transparent;
     background-clip: text;
     margin-bottom: var(--spacing-xs);
-    opacity: 0;
 }
 
 .pre-title {
@@ -227,7 +225,6 @@ body.animating {
     color: var(--color-text-muted);
     letter-spacing: 0.15em;
     margin-bottom: var(--spacing-sm);
-    opacity: 0;
 }
 
 .event-title {
@@ -237,8 +234,6 @@ body.animating {
     color: var(--color-cream-soft);
     letter-spacing: 0.02em;
     margin-bottom: var(--spacing-sm);
-    opacity: 0;
-    transform: translateY(20px);
     text-shadow: 0 2px 20px rgba(212, 175, 55, 0.3);
 }
 
@@ -256,8 +251,6 @@ body.animating {
     background-clip: text;
     text-shadow: none;
     line-height: 1.2;
-    opacity: 0;
-    transform: translateY(30px);
 }
 
 .ampersand {
@@ -266,13 +259,11 @@ body.animating {
     font-size: clamp(2rem, 6vw, 3.5rem);
     color: var(--color-gold);
     margin: var(--spacing-xs) 0;
-    opacity: 0;
 }
 
 .invitation-message {
     max-width: 600px;
     margin-bottom: var(--spacing-md);
-    opacity: 0;
 }
 
 .invitation-message p {
@@ -290,7 +281,6 @@ body.animating {
 .decorative-divider {
     color: var(--color-gold);
     font-size: 2rem;
-    opacity: 0;
 }
 
 /* ========================================
